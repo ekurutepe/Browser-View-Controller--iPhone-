@@ -38,7 +38,8 @@
 @interface BrowserViewController : UIViewController 
 <
 UIWebViewDelegate,
-UIActionSheetDelegate
+UIActionSheetDelegate,
+UITextFieldDelegate
 >
 {
     // the current URL of the UIWebView

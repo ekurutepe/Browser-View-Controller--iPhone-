@@ -28,12 +28,14 @@
 
 @interface BrowserViewController ()
 
+@property (retain, nonatomic) IBOutlet UITextField *addressBar;
 @property (assign, nonatomic) BOOL backOrForwardPressed;
 
 @end
 
 @implementation BrowserViewController
 
+@synthesize addressBar;
 @synthesize backOrForwardPressed;
 
 @synthesize webView;
@@ -81,6 +83,7 @@
     [reloadButton release];
     [actionButton release];
 
+    [addressBar release];
     [super dealloc];
 }
 
@@ -204,6 +207,7 @@
 - (void)viewDidUnload
 {
     [[self navigationItem] setRightBarButtonItem:nil];
+    [self setAddressBar:nil];
     [super viewDidUnload];
 }
 
@@ -306,5 +310,17 @@
     [self updateToolbar];
 }
 
+#pragma mark - UITextFieldDelegate Methods
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    
+    self.url = [NSURL URLWithString:textField.text];
+    
+    [self.webView loadRequest:[NSURLRequest requestWithURL:self.url]];
+    
+    [textField resignFirstResponder];
+    
+    return YES;
+}
 
 @end
