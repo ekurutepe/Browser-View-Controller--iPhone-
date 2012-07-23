@@ -28,13 +28,13 @@
 
 @interface BrowserViewController ()
 
-@property (assign, nonatomic) BOOL backOrForwardPressed;
+@property (assign, nonatomic) BOOL backPressed;
 
 @end
 
 @implementation BrowserViewController
 
-@synthesize backOrForwardPressed;
+@synthesize backPressed;
 
 @synthesize webView;
 @synthesize url;
@@ -155,6 +155,9 @@
     NSString *pageTitle = [self.webView stringByEvaluatingJavaScriptFromString:@"document.title"];
     if(pageTitle) [[self navigationItem] setTitle:pageTitle];
     
+    // URL
+    self.addressBar.text = [self.url absoluteString];
+    
     
     // If there is a navigation controller, take up the same style for the toolbar.
     if (self.navigationController) {
@@ -221,7 +224,7 @@
 - (void)backButtonPressed:(id)sender
 {
     if([self.webView canGoBack]){
-        self.backOrForwardPressed = YES;
+        self.backPressed = YES;
         [self.webView goBack];
     }
 }
@@ -230,8 +233,9 @@
 - (void)forwardButtonPressed:(id)sender
 {
     if([self.webView canGoForward]){
-        self.backOrForwardPressed = YES;
-        [self.webView goForward];
+		self.backPressed = YES;
+		self.url = self.webView.request.URL;
+		[self.webView goForward];
     };
 }
 
@@ -274,9 +278,9 @@
     // Update the url if the user tapped on a URL
     // or if this is the first request after pressing back or forward
     if(navigationType == UIWebViewNavigationTypeLinkClicked ||
-       (navigationType == UIWebViewNavigationTypeBackForward && self.backOrForwardPressed)){
+       (navigationType == UIWebViewNavigationTypeBackForward && self.backPressed)){
         self.url = request.URL;
-        self.backOrForwardPressed = NO;
+        self.backPressed = NO;
     }
     
     return YES;
