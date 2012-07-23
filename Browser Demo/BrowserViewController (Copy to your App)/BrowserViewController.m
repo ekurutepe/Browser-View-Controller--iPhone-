@@ -255,6 +255,16 @@
 /**********************************************************************************************************************/
 #pragma mark - WebView Delegate
 
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
+    
+    // Update the url if the user tapped on a URL
+    if(navigationType == UIWebViewNavigationTypeLinkClicked){
+        self.url = request.URL;
+    }
+    
+    return YES;
+}
+
 
 - (void)webViewDidStartLoad:(UIWebView *)webView
 {
