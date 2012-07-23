@@ -159,8 +159,9 @@
     if(pageTitle) [[self navigationItem] setTitle:pageTitle];
     
     // URL
-    self.addressBar.text = [self.url absoluteString];
-    
+    if(![self.addressBar isFirstResponder]){
+        self.addressBar.text = [self.url absoluteString];
+    }
     
     // If there is a navigation controller, take up the same style for the toolbar.
     if (self.navigationController) {
