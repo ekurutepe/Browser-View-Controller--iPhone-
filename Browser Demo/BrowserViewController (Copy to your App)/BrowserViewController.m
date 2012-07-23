@@ -28,7 +28,8 @@
 
 @interface BrowserViewController ()
 
-@property (retain, nonatomic) IBOutlet UITextField *addressBar;
+@property (retain, nonatomic) IBOutlet UIToolbar *addressBar;
+@property (retain, nonatomic) IBOutlet UITextField *addressField;
 @property (assign, nonatomic) BOOL backOrForwardPressed;
 
 @end
@@ -36,6 +37,7 @@
 @implementation BrowserViewController
 
 @synthesize addressBar;
+@synthesize addressField;
 @synthesize backOrForwardPressed;
 
 @synthesize webView;
@@ -46,7 +48,7 @@
 @synthesize stopButton;
 @synthesize reloadButton;
 @synthesize actionButton;
-
+@synthesize addressBarVisible;
 
 /**********************************************************************************************************************/
 #pragma mark - UIActionSheet Delegate
@@ -83,6 +85,7 @@
     [reloadButton release];
     [actionButton release];
 
+    [addressBar release];
     [addressBar release];
     [super dealloc];
 }
@@ -159,8 +162,8 @@
     if(pageTitle) [[self navigationItem] setTitle:pageTitle];
     
     // URL
-    if(![self.addressBar isFirstResponder]){
-        self.addressBar.text = [self.url absoluteString];
+    if(![self.addressField isFirstResponder]){
+        self.addressField.text = [self.url absoluteString];
     }
     
     // If there is a navigation controller, take up the same style for the toolbar.
@@ -197,6 +200,22 @@
 {
     [super viewDidLoad];
     
+    // Add address bar
+    if(self.isAddressBarVisible){
+		[self.view addSubview:self.addressBar];
+		
+		CGRect overlap = CGRectIntersection(self.webView.frame, self.addressBar.frame);
+		
+		if(!CGRectIsNull(overlap)){
+			
+			CGRect slice;
+			CGRect remainder;
+			CGRectDivide(self.webView.frame, &slice, &remainder, overlap.size.height, CGRectMinYEdge);
+			
+			self.webView.frame = remainder;
+		}
+	}
+	
     self.webView.scalesPageToFit = YES;
     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:activityIndicator] autorelease];
     
@@ -208,6 +227,7 @@
 - (void)viewDidUnload
 {
     [[self navigationItem] setRightBarButtonItem:nil];
+    [self setAddressField:nil];
     [self setAddressBar:nil];
     [super viewDidUnload];
 }
