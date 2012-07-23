@@ -28,13 +28,13 @@
 
 @interface BrowserViewController ()
 
-@property (assign, nonatomic) BOOL backPressed;
+@property (assign, nonatomic) BOOL backOrForwardPressed;
 
 @end
 
 @implementation BrowserViewController
 
-@synthesize backPressed;
+@synthesize backOrForwardPressed;
 
 @synthesize webView;
 @synthesize url;
@@ -224,7 +224,7 @@
 - (void)backButtonPressed:(id)sender
 {
     if([self.webView canGoBack]){
-        self.backPressed = YES;
+        self.backOrForwardPressed = YES;
         [self.webView goBack];
     }
 }
@@ -233,9 +233,9 @@
 - (void)forwardButtonPressed:(id)sender
 {
     if([self.webView canGoForward]){
-		self.backPressed = YES;
-		self.url = self.webView.request.URL;
+		self.backOrForwardPressed = YES;
 		[self.webView goForward];
+		self.url = self.webView.request.URL;
     };
 }
 
@@ -278,9 +278,9 @@
     // Update the url if the user tapped on a URL
     // or if this is the first request after pressing back or forward
     if(navigationType == UIWebViewNavigationTypeLinkClicked ||
-       (navigationType == UIWebViewNavigationTypeBackForward && self.backPressed)){
+       (navigationType == UIWebViewNavigationTypeBackForward && self.backOrForwardPressed)){
         self.url = request.URL;
-        self.backPressed = NO;
+        self.backOrForwardPressed = NO;
     }
     
     return YES;
