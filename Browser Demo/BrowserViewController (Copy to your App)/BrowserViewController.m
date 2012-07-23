@@ -32,6 +32,9 @@
 @property (retain, nonatomic) IBOutlet UITextField *addressField;
 @property (assign, nonatomic) BOOL backOrForwardPressed;
 
+-(void)showAddressBar;
+-(void)hideAddressBar;
+
 @end
 
 @implementation BrowserViewController
@@ -201,7 +204,9 @@
     [super viewDidLoad];
     
     // Show the address bar
-    self.addressBarVisible = self.addressBarVisible;
+    if(self.addressBarVisible){
+        [self showAddressBar];
+    }
 	
     self.webView.scalesPageToFit = YES;
     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:activityIndicator] autorelease];
@@ -229,45 +234,54 @@
 }
 
 /**********************************************************************************************************************/
-#pragma mark Getters/Setters
+#pragma mark - Address Bar Visibility
+
+-(void)showAddressBar{
+    // Make the address bar visible (if it isn't already)
+    if([self.addressBar superview] != self.view){
+        
+        [self.view addSubview:self.addressBar];
+        
+        // Resize the webview if it is now overlapped by the address bar
+        CGRect overlap = CGRectIntersection(self.webView.frame, self.addressBar.frame);
+        
+        if(!CGRectIsNull(overlap)){
+            
+            CGRect slice;
+            CGRect remainder;
+            CGRectDivide(self.webView.frame, &slice, &remainder, overlap.size.height, CGRectMinYEdge);
+            
+            self.webView.frame = remainder;
+        }
+    }
+}
+
+-(void)hideAddressBar{
+    // Hide the address bar (if it is visible)
+    if([self.addressBar superview] == self.view){
+        [self.addressBar removeFromSuperview];
+        
+        CGFloat barHeight = self.addressBar.bounds.size.height;
+        
+        CGRect frame = CGRectMake(0, 0, self.webView.bounds.size.width, self.webView.bounds.size.height + barHeight);
+        
+        self.webView.frame = frame;
+    }
+}
 
 -(void)setAddressBarVisible:(BOOL)visible{
     addressBarVisible = visible;
     
     if(visible){
-        // Make the address bar visible (if it isn't already)
-        if([self.addressBar superview] != self.view){
-            
-            [self.view addSubview:self.addressBar];
-            
-            // Resize the webview if it is now overlapped by the address bar
-            CGRect overlap = CGRectIntersection(self.webView.frame, self.addressBar.frame);
-            
-            if(!CGRectIsNull(overlap)){
-                
-                CGRect slice;
-                CGRect remainder;
-                CGRectDivide(self.webView.frame, &slice, &remainder, overlap.size.height, CGRectMinYEdge);
-                
-                self.webView.frame = remainder;
-            }
-        }
+        [self showAddressBar];
+        
     }else{
-        // Hide the address bar (if it is visible)
-        if([self.addressBar superview] == self.view){
-            [self.addressBar removeFromSuperview];
-            
-            CGFloat barHeight = self.addressBar.bounds.size.height;
-            
-            CGRect frame = CGRectMake(0, 0, self.webView.bounds.size.width, self.webView.bounds.size.height + barHeight);
-            
-            self.webView.frame = frame;
-        }
+        [self hideAddressBar];
     }
 }
-    /**********************************************************************************************************************/
+/**********************************************************************************************************************/
 #pragma mark - User Interaction
-    
+
 
 - (void)backButtonPressed:(id)sender
 {
