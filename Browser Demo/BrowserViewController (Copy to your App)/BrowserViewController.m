@@ -363,7 +363,27 @@
 
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
-{    
+{
+    NSString *alertTitle = NSLocalizedStringWithDefaultValue(@"LoadErrorTitle",
+                                                             @"BrowserViewController",
+                                                             [NSBundle mainBundle],
+                                                             @"Couldn't Load Page",
+                                                             @"Title of error alert displayed when a page couldn't be loaded");
+    
+    NSString *cancelTitle = NSLocalizedStringWithDefaultValue(@"LoadErrorDismissTitle",
+                                                              @"BrowserViewController",
+                                                              [NSBundle mainBundle],
+                                                              @"Dismiss",
+                                                              @"Text for button to dismiss error alert");
+    
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:alertTitle
+                                                   message:[error localizedDescription]
+                                                  delegate:nil
+                                         cancelButtonTitle:cancelTitle
+                                         otherButtonTitles:nil];
+    
+    [alert show];
+    
     [self updateToolbar];
 }
 
