@@ -87,9 +87,8 @@
     [stopButton release];
     [reloadButton release];
     [actionButton release];
-
     [addressBar release];
-    [addressBar release];
+    
     [super dealloc];
 }
 
