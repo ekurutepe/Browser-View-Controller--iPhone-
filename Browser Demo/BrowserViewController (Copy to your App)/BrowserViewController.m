@@ -154,9 +154,7 @@
     // page title
     NSString *pageTitle = [self.webView stringByEvaluatingJavaScriptFromString:@"document.title"];
     if(pageTitle) [[self navigationItem] setTitle:pageTitle];
-    
-    // URL
-    self.addressBar.text = [self.url absoluteString];
+
     
     
     // If there is a navigation controller, take up the same style for the toolbar.
