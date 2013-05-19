@@ -35,7 +35,7 @@
 {
     BrowserViewController *bvc = [[BrowserViewController alloc] initWithUrls:url];
     [self.navigationController pushViewController:bvc animated:YES];
-    [bvc release];
+
         
     return YES;
 }
@@ -89,11 +89,6 @@
      */
 }
 
-- (void)dealloc
-{
-    [_window release];
-    [_navigationController release];
-    [super dealloc];
-}
+
 
 @end

@@ -171,6 +171,9 @@
 /* Begin PBXProject section */
 		D85043C214390A41000BA1F0 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+			};
 			buildConfigurationList = D85043C514390A41000BA1F0 /* Build configuration list for PBXProject "Browser View Controller" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
@@ -268,8 +271,10 @@
 		D85043ED14390A41000BA1F0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Browser Demo/Browser View Controller-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Browser Demo/Browser View Controller-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -279,8 +284,10 @@
 		D85043EE14390A41000BA1F0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Browser Demo/Browser View Controller-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Browser Demo/Browser View Controller-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;

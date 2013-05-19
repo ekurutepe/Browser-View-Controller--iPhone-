@@ -71,17 +71,7 @@
 - (void)dealloc
 {
     [webView setDelegate:nil];
-    [webView release];
-    [url release];
-    [activityIndicator release];
-    
-    [forwardButton release];
-    [backButton release];
-    [stopButton release];
-    [reloadButton release];
-    [actionButton release];
 
-    [super dealloc];
 }
 
 
@@ -148,8 +138,7 @@
     if([activityIndicator isAnimating]) [toolbarButtons replaceObjectAtIndex:4 withObject:self.stopButton];
     
     [self.toolbar setItems:toolbarButtons animated:YES];
-    [toolbarButtons release];
-    [flexibleSpace release];
+
     
     // page title
     NSString *pageTitle = [self.webView stringByEvaluatingJavaScriptFromString:@"document.title"];
@@ -192,7 +181,7 @@
     [super viewDidLoad];
     
     self.webView.scalesPageToFit = YES;
-    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:activityIndicator] autorelease];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
     
     [self.webView loadRequest:[NSURLRequest requestWithURL:self.url]];
     [self updateToolbar];
@@ -264,7 +253,7 @@
                                              otherButtonTitles:ACTION_OPEN_IN_SAFARI, nil];
     
     [uias showInView:self.view];
-    [uias release];
+
 }
 
 

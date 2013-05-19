@@ -36,7 +36,7 @@
     NSURL *url = [NSURL URLWithString:DEMO_URL];
     BrowserViewController *bvc = [[BrowserViewController alloc] initWithUrls:url];
     [self.navigationController pushViewController:bvc animated:YES];
-    [bvc release];
+
 }
 
 -(BOOL) webView:(UIWebView *)inWeb shouldStartLoadWithRequest:(NSURLRequest *)inRequest navigationType:(UIWebViewNavigationType)inType {
@@ -95,9 +95,6 @@
     // For example: self.myOutlet = nil;
 }
 
-- (void)dealloc
-{
-    [super dealloc];
-}
+
 
 @end
